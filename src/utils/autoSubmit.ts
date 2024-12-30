@@ -1,34 +1,34 @@
-// This script will be injected into the target page
+// Этот скрипт будет внедрен в целевую страницу
 export const autoSubmitScript = `
   (function() {
-    // Get the stored text
+    // Получаем сохраненный текст
     const designText = localStorage.getItem('designText');
     
     if (designText) {
       const checkElements = () => {
-        // Find the textarea and both buttons
+        // Находим textarea и фиолетовую кнопку
         const textarea = document.querySelector('textarea');
         const purpleButton = document.querySelector('button.bg-purple-500, button[style*="background-color: rgb(168, 85, 247)]"');
         
         if (textarea && purpleButton) {
-          // Set the text value
+          // Устанавливаем значение текста
           textarea.value = designText;
           textarea.dispatchEvent(new Event('input', { bubbles: true }));
           
-          // Clear the stored text
+          // Очищаем сохраненный текст
           localStorage.removeItem('designText');
           
-          // Small delay to ensure the UI updates
+          // Небольшая задержка для обновления UI
           setTimeout(() => {
             purpleButton.click();
           }, 100);
         } else {
-          // If elements aren't found, retry after a short delay
+          // Если элементы не найдены, повторяем через небольшой интервал
           setTimeout(checkElements, 100);
         }
       }
       
-      // Start checking for elements
+      // Начинаем проверку элементов
       checkElements();
     }
   })();
